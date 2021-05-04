@@ -15,27 +15,13 @@ namespace Next_palindrome_388
             Console.WriteLine($"1998 => {NextPal(1998)}");
             Console.WriteLine($"2133 => {NextPal(2222)}");
             Console.WriteLine($"9999 => {NextPal(9999)}");
-            Console.WriteLine($"3^39 => {NextPal((ulong)Math.Pow(3,39))}");
+            Console.WriteLine($"3^39 => {NextPal((ulong)Math.Pow(3, 39))}");
             Console.WriteLine($"18446644073709551615 => {NextPal(18446644073709551615)}");
         }
 
         internal static ulong NextPal(ulong n)
         {
-            // increment number 
-            n++;
-            // convert ulong to char array
-            var numberChars = n.ToString().ToCharArray();
-            if (numberChars.Length == 1)
-            {
-                return n;
-            }
-            // convert char array to int array
-            var numberInts = new int[numberChars.Length];
-            for (var index = 0; index < numberChars.Length; index++)
-            {
-                var c = numberChars[index];
-                numberInts[index] = int.Parse(c.ToString());
-            }
+            var numberInts = ConvertUlongToIntArray(n);
             //little cheat here, if all ints are 9 then the next Palindrome will be 10 .. 01
             var isAll9 = numberInts.All(numberInt => numberInt == 9);
             if (isAll9)
@@ -48,6 +34,22 @@ namespace Next_palindrome_388
                 numberInts[^1] = 1;
                 // convert int array to uInt64
                 return ConvertIntArrayToUlong(numberInts);
+            }
+
+            // increment number 
+            n++;
+            numberInts = ConvertUlongToIntArray(n);
+            // if there is only one digit then return
+            if (numberInts.Length == 1)
+            {
+                return n;
+            }
+
+            //another cheat, if all values are the same return
+            var isAllSame = numberInts.All(numberInt => numberInt == numberInts[0]);
+            if (isAllSame)
+            {
+                return n;
             }
 
             // split array into 2
@@ -86,7 +88,7 @@ namespace Next_palindrome_388
                     numberInts[leftIndex] = numberInts[leftIndex] + carry;
                     carry = numberInts[leftIndex] / 10;
                     numberInts[leftIndex] %= 10;
-                    // copy mirror to right
+                    // copy left to right
                     numberInts[rightIndex] = numberInts[leftIndex];
                     leftIndex--;
                     rightIndex++;
@@ -102,6 +104,22 @@ namespace Next_palindrome_388
             }
 
             return ConvertIntArrayToUlong(numberInts);
+        }
+
+        private static int[] ConvertUlongToIntArray(ulong n)
+        {
+            // convert ulong to char array
+            var numberChars = n.ToString().ToCharArray();
+
+            // convert char array to int array
+            var numberInts = new int[numberChars.Length];
+            for (var index = 0; index < numberChars.Length; index++)
+            {
+                var c = numberChars[index];
+                numberInts[index] = int.Parse(c.ToString());
+            }
+
+            return numberInts;
         }
 
         private static ulong ConvertIntArrayToUlong(int[] intArray)
