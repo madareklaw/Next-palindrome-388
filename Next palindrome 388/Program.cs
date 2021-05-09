@@ -13,7 +13,7 @@ namespace Next_palindrome_388
             Console.WriteLine($"998 => {NextPal(998)}");
             Console.WriteLine($"999 => {NextPal(999)}");
             Console.WriteLine($"1998 => {NextPal(1998)}");
-            Console.WriteLine($"2133 => {NextPal(2222)}");
+            Console.WriteLine($"2222 => {NextPal(2222)}");
             Console.WriteLine($"9999 => {NextPal(9999)}");
             Console.WriteLine($"3^39 => {NextPal((ulong)Math.Pow(3, 39))}");
             Console.WriteLine($"18446644073709551615 => {NextPal(18446644073709551615)}");
